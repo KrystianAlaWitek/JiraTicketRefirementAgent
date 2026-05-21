@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- GraphAIAgent na WARN — własny EventHandler ([Tool call starting/completed]) już daje
+         sygnał o tool callach, a Koog INFO 'Executing tool' + DEBUG 'Received tool result'
+         duplikują się z naszymi printami i dla __ask_user__ trzykrotnie powtarzają tę samą
+         wiadomość. WARN przepuszcza tylko realne błędy z subgrafów. -->
+    <logger name="ai.koog.agents.core.agent.GraphAIAgent" level="WARN"/>
+
+    <!-- Per-node ślad ('Executing node ...', 'Completed node ...', '__start__', '__finish__') — zbędny szum.
+         Zostawiamy WARN żeby błędy z subgrafów się pokazywały. -->
+    <logger name="ai.koog.agents.core.agent.entity.AIAgentSubgraphBase" level="WARN"/>
+    <logger name="ai.koog.agents.core.agent.entity.SimpleAIAgentNodeImpl" level="WARN"/>
+
+    <!-- 'Getting env var KOOG_FEATURES'... — drukuje się czterokrotnie na każdy run agenta -->
+    <logger name="ai.koog.agents.core.system.SystemVariablesReader" level="WARN"/>
+
+    <!-- Bug Koog 0.8.0: spam 'Unknown transport type: StreamableHttpClientTransport' ×N
+         w McpToolRegistryProvider przy każdym tool exec — wycisz póki nie naprawią upstream -->
+    <logger name="ai.koog.agents.mcp.McpToolRegistryProvider" level="ERROR"/>
+
+    <!-- Pozostała część ai.koog — INFO wystarczy (m.in. 'Start installing feature') -->
+    <logger name="ai.koog" level="INFO"/>
+    <logger name="ai.koog.prompt.executor" level="INFO"/>
+
+    <!-- Ktor klient HTTP — wycisza 'REQUEST: POST https://...' / 'RESPONSE: 200' przy każdym MCP callu.
+         Komunikaty WARN/ERROR (np. 'failed with exception') nadal się przebijają. -->
+    <logger name="io.ktor.client.HttpClient" level="WARN"/>
+
+    <!-- MCP SDK od strony klienta — 'Starting transport' itp. -->
+    <logger name="io.modelcontextprotocol" level="WARN"/>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

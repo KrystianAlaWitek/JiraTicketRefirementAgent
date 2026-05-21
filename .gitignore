@@ -1,0 +1,20 @@
+.gradle/
+build/
+out/
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+local.properties
+
+# Koog API sources (lokalnie wypakowane z gradle cache, regenerowalne przez .koog-api/update.sh)
+.koog-api/
+
+# Lokalna dokumentacja / notatki (nie commitujemy do repo)
+docs/
+ala-organization-context.md
+
+# Claude Code workspace
+.claude/
+.kotlin/
