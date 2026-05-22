@@ -21,14 +21,11 @@ Artifactory. Maven pulls from `mavenCentral()` only.
 
 Environment variables required to run:
 
-| Variable | Purpose |
-|---|---|
-| `OPEN_API_KEY` | OpenAI key (GPT-4o / GPT-5 — see `agents/MainAgentConfig.kt`, `agents/FetchJiraAgentTool.kt`) |
-| `GITHUB_TOKEN` | Bearer token for `https://api.githubcopilot.com/mcp/` (GitHub Copilot MCP) |
-
-The Atlassian MCP token is currently **hardcoded** in `connections/JiraMcp.kt`
-(`TOKEN` constant) — TODO: move to env. After it expires, refresh with the
-`refresh-jira-token` skill.
+| Variable       | Purpose                                                                                                              |
+|----------------|----------------------------------------------------------------------------------------------------------------------|
+| `OPEN_API_KEY` | OpenAI key (GPT-4o / GPT-5 — see `agents/MainAgentConfig.kt`, `agents/FetchJiraAgentTool.kt`)                        |
+| `GITHUB_TOKEN` | Bearer token for `https://api.githubcopilot.com/mcp/` (GitHub Copilot MCP)                                           |
+| `JIRA_TOKEN`   | OAuth Bearer for `https://mcp.atlassian.com/v1/mcp` (Atlassian MCP). TTL ~8h, needs periodic refresh.                |
 
 The working directory must also contain `ala-organization-context.md`
 (loaded by `OrganizationContextProvider` — describes the GitHub org, repo naming
