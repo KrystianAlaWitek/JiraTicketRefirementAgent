@@ -22,7 +22,6 @@ fun main() {
                 tool(AskUser)
                 tool(ExitTool)
                 tool(fetchJiraTool)
-                // TODO bedzie trzeba wyselekcjonowac z gita tylko te potrzebne
             }.plus(createGithubMcpToolRegistry())
 
         val metrics = AgentMetrics()

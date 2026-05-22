@@ -55,11 +55,15 @@ fun buildFetchJiraStrategy(): AIAgentGraphStrategy<RefinementState.Initial, Refi
 
             edge(nodeStart forwardTo userMessage)
             edge(userMessage forwardTo callLLMWithTools)
+
             edge(callLLMWithTools forwardTo executeTool onToolCall { true })
             edge(callLLMWithTools forwardTo finalStructuredResponse onAssistantMessage { true })
+
             edge(executeTool forwardTo sendToolResultToLlm)
+
             edge(sendToolResultToLlm forwardTo executeTool onToolCall { true })
             edge(sendToolResultToLlm forwardTo finalStructuredResponse onAssistantMessage { true })
+
             edge(finalStructuredResponse forwardTo finalState)
             edge(finalState forwardTo nodeFinish)
         }
